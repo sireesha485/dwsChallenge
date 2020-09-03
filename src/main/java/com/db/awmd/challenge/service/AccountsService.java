@@ -66,6 +66,6 @@ public class AccountsService {
 	}
 	notificationService.notifyAboutTransfer(fromAccount, amount + "transferred from" + fromAccount);
 	notificationService.notifyAboutTransfer(toAccount, amount + "transferred to" + toAccount);
-	return "amount successfully transferred,remaining balence" + fromAccount.getBalance();
+	return "amount successfully transferred,remaining balence:" + fromAccount.getBalance();
     }
 }

@@ -66,7 +66,7 @@ public class AccountsServiceTest {
 	this.accountsService.createAccount(account2);
 
 	assertThat(this.accountsService.transferAmount(toUniqueId, uniqueId, new BigDecimal("100.00")))
-		.isEqualTo("amount successfully transferred");
+		.isEqualTo("amount successfully transferred,remaining balence:900.00");
 
     }
 
