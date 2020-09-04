@@ -3,7 +3,6 @@ package com.db.awmd.challenge;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -104,48 +103,6 @@ public class AccountsControllerTest {
 	this.accountsService.createAccount(account);
 	this.mockMvc.perform(get("/v1/accounts/" + uniqueAccountId)).andExpect(status().isOk())
 		.andExpect(content().string("{\"accountId\":\"" + uniqueAccountId + "\",\"balance\":123.45}"));
-    }
-
-    @Test
-    public void transferAmount() throws Exception {
-	String uniqueFromAccountId = "Id-123";
-	String uniqueToAccountId = "Id-234";
-	Account account = new Account(uniqueFromAccountId, new BigDecimal("1230.45"));
-	this.accountsService.createAccount(account);
-	Account account2 = new Account(uniqueToAccountId, new BigDecimal("123.45"));
-	this.accountsService.createAccount(account2);
-
-	this.mockMvc
-		.perform(put("/v1/accounts/transfers").contentType(MediaType.APPLICATION_JSON)
-			.content("{\"accountToId\":\"Id-234\",\"accountFromId\":\"Id-123\",\"amount\":1000}"))
-		.andExpect(status().isOk());
-    }
-
-    @Test
-    public void transferAmountZeroAmount() throws Exception {
-
-	this.mockMvc
-		.perform(put("/v1/accounts/transfers").contentType(MediaType.APPLICATION_JSON)
-			.content("{\"accountToId\":\"Id-234\",\"accountFromId\":\"Id-123\",\"amount\":0}"))
-		.andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void transferAmountEmptyToAccount() throws Exception {
-
-	this.mockMvc
-		.perform(put("/v1/accounts/transfers").contentType(MediaType.APPLICATION_JSON)
-			.content("{\"accountToId\":\"\",\"accountFromId\":\"Id-123\",\"amount\":0}"))
-		.andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void transferAmountEmptyFromAccount() throws Exception {
-
-	this.mockMvc
-		.perform(put("/v1/accounts/transfers").contentType(MediaType.APPLICATION_JSON)
-			.content("{\"accountToId\":\"Id-234\",\"accountFromId\":\"\",\"amount\":0}"))
-		.andExpect(status().isBadRequest());
     }
 
 }

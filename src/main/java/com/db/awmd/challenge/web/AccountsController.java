@@ -9,13 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.db.awmd.challenge.domain.Account;
-import com.db.awmd.challenge.dto.TransferDto;
 import com.db.awmd.challenge.exception.DuplicateAccountIdException;
 import com.db.awmd.challenge.service.AccountsService;
 
@@ -50,14 +48,6 @@ public class AccountsController {
     public Account getAccount(@PathVariable String accountId) {
 	log.info("Retrieving account for id {}", accountId);
 	return this.accountsService.getAccount(accountId);
-    }
-
-    @PutMapping(path = "/transfers", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> transferAmount(@RequestBody @Valid TransferDto transferDto) {
-	log.info("transferring  account from id {} to {}", transferDto.getAccountFromId(),
-		transferDto.getAccountToId());
-	return new ResponseEntity<>(this.accountsService.transferAmount(transferDto.getAccountToId(),
-		transferDto.getAccountFromId(), transferDto.getAmount()), HttpStatus.OK);
     }
 
 }

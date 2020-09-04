@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/*
+* This class is used to handle exceptions globally
+* 
+* @author sireesha
+* @since 04-09-2020
+*
+*/
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -36,15 +43,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotRegisteredException.class)
     public ResponseEntity<Object> handleUserNotRegisteredException(UserNotRegisteredException ex, WebRequest request) {
-
-	HashMap<String, Object> body = new HashMap<>();
-	body.put("message", ex.getMessage());
-	body.put("error code", 4111);
-	return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(InvalidInputException.class)
-    public ResponseEntity<Object> handleInvalidInputException(InvalidInputException ex, WebRequest request) {
 
 	HashMap<String, Object> body = new HashMap<>();
 	body.put("message", ex.getMessage());

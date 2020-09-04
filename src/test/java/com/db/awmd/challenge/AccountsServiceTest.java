@@ -14,9 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.db.awmd.challenge.domain.Account;
 import com.db.awmd.challenge.exception.DuplicateAccountIdException;
-import com.db.awmd.challenge.exception.InsufficientBalenceException;
-import com.db.awmd.challenge.exception.InvalidInputException;
-import com.db.awmd.challenge.exception.UserNotRegisteredException;
 import com.db.awmd.challenge.service.AccountsService;
 import com.db.awmd.challenge.service.NotificationService;
 
@@ -54,63 +51,4 @@ public class AccountsServiceTest {
 
     }
 
-    @Test
-    public void transferAmountSuccess() throws Exception {
-	accountsService.getAccountsRepository().clearAccounts();
-	String uniqueId = "Id5-" + System.currentTimeMillis();
-	Account account = new Account(uniqueId);
-	account.setBalance(new BigDecimal(1000));
-	String toUniqueId = "Id6-" + System.currentTimeMillis();
-	Account account2 = new Account(toUniqueId);
-	this.accountsService.createAccount(account);
-	this.accountsService.createAccount(account2);
-
-	assertThat(this.accountsService.transferAmount(toUniqueId, uniqueId, new BigDecimal("100.00")))
-		.isEqualTo("amount successfully transferred,remaining balence:900.00");
-
-    }
-
-    @Test(expected = InsufficientBalenceException.class)
-    public void transferAmountFail() throws Exception {
-	accountsService.getAccountsRepository().clearAccounts();
-	String uniqueId = "Id5-" + System.currentTimeMillis();
-	Account account = new Account(uniqueId);
-	account.setBalance(new BigDecimal(90));
-	String toUniqueId = "Id6-" + System.currentTimeMillis();
-	Account account2 = new Account(toUniqueId);
-	this.accountsService.createAccount(account);
-	this.accountsService.createAccount(account2);
-
-	this.accountsService.transferAmount(toUniqueId, uniqueId, new BigDecimal("100.00"));
-
-    }
-
-    @Test(expected = InvalidInputException.class)
-    public void transferAmountFailForZeroAmount() throws Exception {
-	accountsService.getAccountsRepository().clearAccounts();
-	String uniqueId = "Id5-" + System.currentTimeMillis();
-	Account account = new Account(uniqueId);
-	account.setBalance(new BigDecimal(90));
-	String toUniqueId = "Id6-" + System.currentTimeMillis();
-	Account account2 = new Account(toUniqueId);
-	this.accountsService.createAccount(account);
-	this.accountsService.createAccount(account2);
-
-	this.accountsService.transferAmount(toUniqueId, uniqueId, new BigDecimal("0.00"));
-
-    }
-
-    @Test(expected = UserNotRegisteredException.class)
-    public void transferAmountFailForAccountNotExist() throws Exception {
-	accountsService.getAccountsRepository().clearAccounts();
-	String uniqueId = "Id5-" + System.currentTimeMillis();
-	Account account = new Account(uniqueId);
-	account.setBalance(new BigDecimal(90));
-	String toUniqueId = "Id6-" + System.currentTimeMillis();
-
-	this.accountsService.createAccount(account);
-
-	this.accountsService.transferAmount(toUniqueId, uniqueId, new BigDecimal("10.00"));
-
-    }
 }

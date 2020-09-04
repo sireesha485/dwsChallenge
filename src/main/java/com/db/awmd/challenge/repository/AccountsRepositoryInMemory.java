@@ -32,9 +32,9 @@ public class AccountsRepositoryInMemory implements AccountsRepository {
     }
 
     @Override
-    public void updateAccount(Account account) {
-	accounts.put(account.getAccountId(), account);
+    public Map<String, Account> getAccounts() {
 
+	return accounts;
     }
 
 }
